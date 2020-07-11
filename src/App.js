@@ -1,25 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
+import { Card } from "antd";
+import Layouts from './Components/Layout';
+import 'antd/dist/antd.dark.css';
 function App() {
+  // const [defaultTheme, setDefaultTheme] = useState(true);
+  // defaultTheme
+  //   ? import("antd/dist/antd.css").then(() => {})
+  //   : import("antd/dist/antd.dark.css").then(() => {});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <Layouts />
+    </React.Fragment>
   );
 }
 
