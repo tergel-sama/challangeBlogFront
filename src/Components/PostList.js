@@ -5,9 +5,9 @@ export default function PostList() {
   const arr = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <Row gutter={[24, 24]} >
-      {arr.map((item) => (
-        <Col md={{ span: 8 }}>
-          <Post />
+      {arr.map((item,index) => (
+        <Col key={index} md={{ span: 8 }}>
+          <Post key={index} />
         </Col>
       ))}
     </Row>

@@ -9,11 +9,12 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/",
 });
 ReactDOM.render(
-  <React.StrictMode>
-    <RequestProvider value={axiosInstance}>
-      <App />
-    </RequestProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  //   </React.StrictMode>
+  <RequestProvider value={axiosInstance}>
+    <App />
+  </RequestProvider>,
+
   document.getElementById("root")
 );
 

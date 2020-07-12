@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { Card } from "antd";
-import Layouts from './Components/Layout';
-import 'antd/dist/antd.dark.css';
+import Layouts from "./Components/Layout";
+// import 'antd/dist/antd.dark.css';
 function App() {
-  // const [defaultTheme, setDefaultTheme] = useState(true);
-  // defaultTheme
-  //   ? import("antd/dist/antd.css").then(() => {})
-  //   : import("antd/dist/antd.dark.css").then(() => {});
+  const [isDark, setIsDark] = useState(true);
+  function dark() {
+    if (isDark) return ".dark";
+    else return "";
+  }
+ 
+
+  // import(`antd/dist/antd${dark()}.css`).then(() => {
+  //   console.log("changed");
+  // });
 
   return (
     <React.Fragment>
-      <Layouts />
+      <Layouts isDark={isDark} setIsDark={setIsDark} />
     </React.Fragment>
   );
 }

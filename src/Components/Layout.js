@@ -13,16 +13,28 @@ import PostList from "./PostList";
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function CompLayout() {
+export default function CompLayout({setIsDark,isDark}) {
   const [collapsed, setCollapsed] = useState(true);
-
+  const [contentLayout , setContentLayout] = useState(200)
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
-        
-        collapsible
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
+       breakpoint="lg"
+       collapsedWidth="0"
+       style={{
+        // overflow: 'auto',
+        zIndex:'1',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+      }} 
+      onCollapse={(collapsed, type) => {
+        collapsed?setContentLayout(0):setContentLayout(200);
+        console.log(collapsed, type);
+      }}
+        // collapsible
+        // collapsed={collapsed}
+        // onCollapse={setCollapsed}
       >
         <div
           style={{
@@ -50,9 +62,9 @@ export default function CompLayout() {
           <Menu.Item key="9" icon={<FileOutlined />} />
         </Menu>
       </Sider>
-      <Layout>
-        <Header />
-        <Content style={{ margin: "0 16px" }}>
+      <Layout style={{ marginLeft: contentLayout  }}>
+        <Header setIsDark={setIsDark} isDark={isDark} paddingRight={contentLayout} />
+        <Content style={{ margin: "0 50px" ,marginTop: 70 }}>
           <div
             style={{
               

@@ -16,7 +16,7 @@ export default function Post() {
       cover={
         <img
           alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          src="https://i.ibb.co/3WrhdJD/wallhaven-dgeqoj.jpg"
         />
       }
       actions={
@@ -29,18 +29,20 @@ export default function Post() {
       }
     >
       <Meta
+      key='1'
         avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          <Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" />
         }
         title="Card title"
         description="This is the description"
       />
       <br />
       <Meta
+      key='2'
         title={[
-          <Tag color="blue">Javascript</Tag>,
-          <Tag color="blue">React</Tag>,
-          <Tag color="blue">Node</Tag>
+          <Tag key='1' color="blue">Javascript</Tag>,
+          <Tag key='3' color="blue">React</Tag>,
+          <Tag key='2' color="blue">Node</Tag>
         ]}
       />
     </Card>
