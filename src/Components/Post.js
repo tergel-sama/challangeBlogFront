@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Avatar } from "antd";
+import { Card, Avatar, Tag } from "antd";
 import {
   EditOutlined,
   EllipsisOutlined,
@@ -19,12 +19,14 @@ export default function Post() {
           src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
         />
       }
-      actions={[
-        // <EyeOutlined />,
-        // <SettingOutlined key="setting" />,
-        // <EditOutlined key="edit" />,
-        // <EllipsisOutlined key="ellipsis" />,
-      ]}
+      actions={
+        [
+          // <EyeOutlined />,
+          // <SettingOutlined key="setting" />,
+          // <EditOutlined key="edit" />,
+          // <EllipsisOutlined key="ellipsis" />,
+        ]
+      }
     >
       <Meta
         avatar={
@@ -32,6 +34,14 @@ export default function Post() {
         }
         title="Card title"
         description="This is the description"
+      />
+      <br />
+      <Meta
+        title={[
+          <Tag color="blue">Javascript</Tag>,
+          <Tag color="blue">React</Tag>,
+          <Tag color="blue">Node</Tag>
+        ]}
       />
     </Card>
   );
