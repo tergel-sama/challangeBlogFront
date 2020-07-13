@@ -18,7 +18,7 @@
   "scripts": {
     "start": "npx concurrently \"npm run back\" \"npm run front\"",
     "build": "react-scripts build",
-    "back": "npm start --prefix ../back",
+    "back": "npm start --prefix ../blog-back",
     "front": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
