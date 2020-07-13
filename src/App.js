@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { Card } from "antd";
 import Layouts from "./Components/Layout";
+import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 // import 'antd/dist/antd.dark.css';
 function App() {
   const [isDark, setIsDark] = useState(true);
-  function dark() {
-    if (isDark) return ".dark";
-    else return "";
-  }
  
-
+  const themes = {
+    light: `${process.env.PUBLIC_URL}/light-theme.css`,
+    dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
+  };
   // import(`antd/dist/antd${dark()}.css`).then(() => {
   //   console.log("changed");
   // });
 
   return (
-    <React.Fragment>
+    <ThemeSwitcherProvider defaultTheme={isDark?'dark':'light'} themeMap={themes}>
       <Layouts isDark={isDark} setIsDark={setIsDark} />
-    </React.Fragment>
+    </ThemeSwitcherProvider>
   );
 }
 

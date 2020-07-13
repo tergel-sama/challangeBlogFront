@@ -17,7 +17,7 @@ export default function HeaderPage({ paddingRight, setIsDark, isDark }) {
         <Menu.Item key="1">
           <Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" /> Mr. Rob0t
         </Menu.Item>
-        <Menu.Item key="4">
+        <Menu.Item disabled key="4">
           <Switch
             key="switch"
             checked={isDark}
