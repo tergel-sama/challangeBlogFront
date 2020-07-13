@@ -1,9 +1,11 @@
-import React from "react";
+import React , {useContext} from "react";
 import { PageHeader, Button, Tag, Layout, Menu, Avatar, Switch } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
+import {ThemeContext} from '../contexts';
 const { Header } = Layout;
 const { SubMenu } = Menu;
-export default function HeaderPage({ paddingRight, setIsDark, isDark }) {
+export default function HeaderPage({ paddingRight}) {
+  const {isDark,setIsDark} = useContext(ThemeContext);
   return (
     <Header
       style={{
@@ -30,7 +32,10 @@ export default function HeaderPage({ paddingRight, setIsDark, isDark }) {
           />
         </Menu.Item>
         <SubMenu
-          style={{ float: "right" }}
+          style={{
+            float: paddingRight !== 0 ? "right" : "unset",
+            display: paddingRight !== 0 ? "" : "none",
+          }}
           key="2"
           icon={<SettingOutlined style={{ fontSize: 16 }} />}
         >

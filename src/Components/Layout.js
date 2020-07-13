@@ -9,29 +9,30 @@ import {
 } from "@ant-design/icons";
 import Header from "./Header";
 import PostList from "./PostList";
+import Routes from "../Routes/Routes";
 // import "../Style/LayoutCss.css";
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export default function CompLayout({setIsDark,isDark}) {
+export default function CompLayout() {
   const [collapsed, setCollapsed] = useState(true);
-  const [contentLayout , setContentLayout] = useState(200)
+  const [contentLayout, setContentLayout] = useState(200);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
-       breakpoint="lg"
-       collapsedWidth="0"
-       style={{
-        // overflow: 'auto',
-        zIndex:'1',
-        height: '100vh',
-        position: 'fixed',
-        left: 0,
-      }} 
-      onCollapse={(collapsed, type) => {
-        collapsed?setContentLayout(0):setContentLayout(200);
-        console.log(collapsed, type);
-      }}
+        breakpoint="lg"
+        collapsedWidth="0"
+        style={{
+          // overflow: 'auto',
+          zIndex: "1",
+          height: "100vh",
+          position: "fixed",
+          left: 0,
+        }}
+        onCollapse={(collapsed, type) => {
+          collapsed ? setContentLayout(0) : setContentLayout(200);
+          console.log(collapsed, type);
+        }}
         // collapsible
         // collapsed={collapsed}
         // onCollapse={setCollapsed}
@@ -62,18 +63,17 @@ export default function CompLayout({setIsDark,isDark}) {
           <Menu.Item key="9" icon={<FileOutlined />} />
         </Menu>
       </Sider>
-      <Layout style={{ marginLeft: contentLayout  }}>
-        <Header setIsDark={setIsDark} isDark={isDark} paddingRight={contentLayout} />
-        <Content style={{ margin: "0 50px" ,marginTop: 70 }}>
+      <Layout style={{ marginLeft: contentLayout }}>
+        <Header paddingRight={contentLayout} />
+        <Content style={{ margin: "0 50px", marginTop: 70 }}>
           <div
             style={{
-              
               padding: 24,
               minHeight: 360,
               backgroundColor: "rgba(255, 255, 255, 0.2)",
             }}
           >
-            <PostList />
+            <Routes />
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

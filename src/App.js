@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Card } from "antd";
 import Layouts from "./Components/Layout";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
-// import 'antd/dist/antd.dark.css';
+
+import { ThemeContext } from "./contexts";
 function App() {
   const [isDark, setIsDark] = useState(true);
- 
+
   const themes = {
     light: `${process.env.PUBLIC_URL}/light-theme.css`,
     dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
@@ -15,8 +16,13 @@ function App() {
   // });
 
   return (
-    <ThemeSwitcherProvider defaultTheme={isDark?'dark':'light'} themeMap={themes}>
-      <Layouts isDark={isDark} setIsDark={setIsDark} />
+    <ThemeSwitcherProvider
+      defaultTheme={isDark ? "dark" : "light"}
+      themeMap={themes}
+    >
+      <ThemeContext.Provider value={{ isDark, setIsDark }}>
+        <Layouts />
+      </ThemeContext.Provider>
     </ThemeSwitcherProvider>
   );
 }
