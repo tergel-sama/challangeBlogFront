@@ -58,6 +58,7 @@ export default function CreatePost() {
         createPost(title, content, "mr.rob0t", imgUrl);
       }}
     >
+      
       <Form.Item label="Гарчиг">
         <Input
           value={title}

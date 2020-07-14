@@ -9,7 +9,7 @@ import {
 
 const { Meta } = Card;
 
-export default function Post({ imgUrl }) {
+export default function Post({ imgUrl ,title,author,content}) {
   return (
     <Card
       hoverable
@@ -45,8 +45,8 @@ export default function Post({ imgUrl }) {
       <Meta
         key="1"
         avatar={<Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" />}
-        title="Card title"
-        description="This is the description"
+        title={title}
+        description={content}
       />
       <br />
       <Meta

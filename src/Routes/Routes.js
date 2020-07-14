@@ -4,9 +4,14 @@ import { mount, route } from "navi";
 import PostList from "../Components/PostList";
 import Post from "../Components/Post";
 import CreatePost from "../Components/CreatePost";
+import Layout from "../Components/Layout";
+import Axios from 'axios';
 export default function Routes() {
   const routes = mount({
-    "/": route({ view: <PostList /> }),
+    "/": route({
+      getData:()=>Axios.get('/api/post'),
+      view: <PostList />,
+    }),
     "/post/:id": route((req) => {
       return { view: <Post id={req.params.id} /> };
     }),
@@ -14,7 +19,9 @@ export default function Routes() {
   });
   return (
     <Router routes={routes}>
-      <View />
+      <Layout>
+        <View />
+      </Layout>
     </Router>
   );
 }

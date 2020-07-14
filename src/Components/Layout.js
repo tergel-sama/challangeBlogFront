@@ -11,14 +11,23 @@ import Header from "./Header";
 import PostList from "./PostList";
 import Routes from "../Routes/Routes";
 // import "../Style/LayoutCss.css";
+import { Link, useLoadingRoute } from "react-navi";
+import LoadingBar from "react-top-loading-bar";
+
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-
-export default function CompLayout() {
-  const [collapsed, setCollapsed] = useState(true);
+export default function CompLayout(props) {
+  const loadingRoute = useLoadingRoute();
+  const [goingBar, setGoingBar] = useState(false);
   const [contentLayout, setContentLayout] = useState(200);
+  const [bar, setBar] = useState();
+  console.log("status", !!loadingRoute, bar);
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      <LoadingBar height={3} color="#00adb5" onRef={(ref) => setBar(ref)} />
+      {!!loadingRoute
+        ? bar?.continuousStart()
+        : bar.state.progress > 0 && bar?.complete()}
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -46,10 +55,10 @@ export default function CompLayout() {
         />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1" icon={<PieChartOutlined />}>
-            Option 1
+            <Link href={"/"}>Мэдээлэлүүд</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Option 2
+            <Link href={"/create-post"}>post ceate</Link>
           </Menu.Item>
           <SubMenu key="sub1" icon={<UserOutlined />} title="User">
             <Menu.Item key="3">Tom</Menu.Item>
@@ -73,7 +82,7 @@ export default function CompLayout() {
               backgroundColor: "rgba(255, 255, 255, 0.2)",
             }}
           >
-            <Routes />
+            {props.children}
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
