@@ -16,7 +16,7 @@ import LoadingBar from "react-top-loading-bar";
 
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
-export default function CompLayout(props) {
+export default function CompLayout({ children }) {
   const loadingRoute = useLoadingRoute();
   const [goingBar, setGoingBar] = useState(false);
   const [contentLayout, setContentLayout] = useState(200);
@@ -25,9 +25,9 @@ export default function CompLayout(props) {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <LoadingBar height={3} color="#00adb5" onRef={(ref) => setBar(ref)} />
-      {!!loadingRoute
+      {!!loadingRoute && bar?.state.progress <= 0
         ? bar?.continuousStart()
-        : bar.state.progress > 0 && bar?.complete()}
+        : bar?.state.progress > 0 && bar?.complete()}
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -82,7 +82,7 @@ export default function CompLayout(props) {
               backgroundColor: "rgba(255, 255, 255, 0.2)",
             }}
           >
-            {props.children}
+            {children}
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

@@ -1,8 +1,8 @@
-import React, { useState ,Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { Card } from "antd";
 import Layouts from "./Components/Layout";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
-import Routes from './Routes/Routes'
+import Routes from "./Routes/Routes";
 import { ThemeContext } from "./contexts";
 function App() {
   const [isDark, setIsDark] = useState(true);
@@ -22,8 +22,8 @@ function App() {
     >
       <ThemeContext.Provider value={{ isDark, setIsDark }}>
         {/* <Layouts /> */}
-        <Suspense fallback={null} > 
-        <Routes  />
+        <Suspense fallback={null}>
+          <Routes />
         </Suspense>
       </ThemeContext.Provider>
     </ThemeSwitcherProvider>

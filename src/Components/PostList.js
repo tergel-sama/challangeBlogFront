@@ -10,6 +10,7 @@ export default function PostList() {
       {data.map((item, index) => (
         <Col key={index} md={{ span: 8 }}>
           <Post
+            id={item._id}
             imgUrl={item.img}
             title={item.title}
             author={item.author}

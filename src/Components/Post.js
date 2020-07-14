@@ -6,13 +6,15 @@ import {
   SettingOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-
+import {useNavigation} from 'react-navi'
 const { Meta } = Card;
 
-export default function Post({ imgUrl ,title,author,content}) {
+export default function Post({ imgUrl ,title,author,content,id}) {
+  const navigation = useNavigation();
   return (
     <Card
       hoverable
+      onClick={()=>{navigation.navigate(`/post/${id}`)}}
       cover={
         <div
           style={{
