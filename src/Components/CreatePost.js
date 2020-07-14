@@ -1,15 +1,39 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Upload, Row, Col, Select } from "antd";
+import React, { useState, useEffect } from "react";
+import { Form, Input, Button, message, Row, Col, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-
+import { useResource } from "react-request-hook";
 const onFinish = (values) => {
   console.log("Received values of form:", values);
 };
 const { TextArea } = Input;
 const { Option } = Select;
 export default function CreatePost() {
+  const [resultPost, createPost] = useResource(
+    (title, content, author, img) => {
+      console.log("content", content);
+      return {
+        url: "/post",
+        method: "post",
+        data: { title, img, author, content },
+      };
+    }
+  );
+  const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [content, setContent] = useState({});
+  useEffect(() => {
+    if (resultPost && resultPost.data) {
+      resultPost.data.status === "success"
+        ? message
+            .success({
+              content: "Амжилттай хадгаллаа!",
+              key: "post",
+              duration: 2.50,
+            })
+            .then((_) => window.location.reload())
+        : message.error({ content: "Алдаа гарлаа!", key: "post", duration: 2 });
+    }
+  }, [resultPost]);
   function onChange(e, type) {
     let data = content;
     data[e.target.name] = type + "$content:" + e.target.value;
@@ -27,9 +51,19 @@ export default function CreatePost() {
     return clonedObj;
   }
   return (
-    <Form name="dynamic_form_item" onFinish={onFinish}>
+    <Form
+      name="dynamic_form_item"
+      onFinish={() => {
+        message.loading({ content: "Хадгалж байна...", key: "post" });
+        createPost(title, content, "mr.rob0t", imgUrl);
+      }}
+    >
       <Form.Item label="Гарчиг">
-        <Input placeholder="input placeholder" />
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Гарчигаа бичээрэй"
+        />
       </Form.Item>
       <Row>
         <Col span={24}>
@@ -37,7 +71,7 @@ export default function CreatePost() {
             <Input
               value={imgUrl}
               onChange={(e) => setImgUrl(e.target.value)}
-              placeholder="image url"
+              placeholder="Зурагныхаа url-ийг оруулаарай"
             />
             <img style={{ width: "100%" }} src={imgUrl} />
           </Form.Item>
@@ -48,7 +82,6 @@ export default function CreatePost() {
           return (
             <div>
               {fields.map((field, index) => {
-                console.log("fields", field, index);
                 let type = "text";
                 return (
                   <Form.Item
@@ -70,9 +103,22 @@ export default function CreatePost() {
                                 setContent(data);
                               }
                             }
-                            console.log(entries);
                             remove(field.name);
-                          } else type = e;
+                          } else {
+                            type = e;
+                            content[`content${field.name}`] &&
+                              onChange(
+                                {
+                                  target: {
+                                    name: `content${field.name}`,
+                                    value: content[
+                                      `content${field.name}`
+                                    ].split(`$content:`)[1],
+                                  },
+                                },
+                                type
+                              );
+                          }
                         }}
                         defaultValue="text"
                       >
@@ -100,7 +146,7 @@ export default function CreatePost() {
                     add();
                   }}
                 >
-                  <PlusOutlined /> Add field
+                  <PlusOutlined /> Нэмэх
                 </Button>
               </Form.Item>
             </div>
@@ -110,7 +156,7 @@ export default function CreatePost() {
 
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Submit
+          Хадгалах
         </Button>
       </Form.Item>
     </Form>
