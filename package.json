@@ -9,6 +9,7 @@
     "antd": "^4.4.2",
     "axios": "^0.19.2",
     "concurrently": "^5.2.0",
+    "html-to-react": "^1.4.3",
     "http-proxy-middleware": "^1.0.5",
     "navi": "^0.14.0",
     "react": "^16.13.1",

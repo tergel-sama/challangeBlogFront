@@ -58,7 +58,7 @@ export default function CreatePost() {
         createPost(title, content, "mr.rob0t", imgUrl);
       }}
     >
-      
+      <p>Бичиг дээр код бичих бол {'<code>let a;</code>'} гэж бичээрэй. Мөн html tag бичих боломжтой.</p>
       <Form.Item label="Гарчиг">
         <Input
           value={title}
@@ -125,6 +125,8 @@ export default function CreatePost() {
                       >
                         <Option value="text">Бичиг</Option>
                         <Option value="code">Код</Option>
+                        <Option value="img">Зураг</Option>
+                        <Option value="note">Тэмдэглэгээ</Option>
                         <Option value="delete">Устгах</Option>
                       </Select>
                     }

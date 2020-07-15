@@ -8,17 +8,13 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import Header from "./Header";
-import PostList from "./PostList";
-import Routes from "../Routes/Routes";
-// import "../Style/LayoutCss.css";
 import { Link, useLoadingRoute } from "react-navi";
 import LoadingBar from "react-top-loading-bar";
-
+import { ContentLayout } from "../contexts";
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default function CompLayout({ children }) {
   const loadingRoute = useLoadingRoute();
-  const [goingBar, setGoingBar] = useState(false);
   const [contentLayout, setContentLayout] = useState(200);
   const [bar, setBar] = useState();
   console.log("status", !!loadingRoute, bar);
@@ -74,15 +70,23 @@ export default function CompLayout({ children }) {
       </Sider>
       <Layout style={{ marginLeft: contentLayout }}>
         <Header paddingRight={contentLayout} />
-        <Content style={{ margin: "0 50px", marginTop: 70 }}>
+        <Content
+          style={
+            contentLayout > 0
+              ? { margin: "0 50px", marginTop: 70 }
+              : { margin: "0px", marginTop: "70px" }
+          }
+        >
           <div
             style={{
               padding: 24,
               minHeight: 360,
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
             }}
           >
-            {children}
+            <ContentLayout.Provider value={{ contentLayout, setContentLayout }}>
+              {children}
+            </ContentLayout.Provider>
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>

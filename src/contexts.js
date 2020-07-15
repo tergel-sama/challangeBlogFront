@@ -3,3 +3,7 @@ export const ThemeContext = React.createContext({
     isDark:true,
     dispatch:()=>{}
 })
+export const ContentLayout = React.createContext({
+    contentLayout:200,
+    setContentLayout:()=>{}
+})
