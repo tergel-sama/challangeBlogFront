@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Form, Input, Button, message, Row, Col, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useResource } from "react-request-hook";
+import {useNavigation} from 'react-navi'
 const onFinish = (values) => {
   console.log("Received values of form:", values);
 };
 const { TextArea } = Input;
 const { Option } = Select;
 export default function CreatePost() {
+  const navigation = useNavigation()
   const [resultPost, createPost] = useResource(
     (title, content, author, img) => {
       console.log("content", content);
@@ -28,9 +30,9 @@ export default function CreatePost() {
             .success({
               content: "Амжилттай хадгаллаа!",
               key: "post",
-              duration: 2.50,
+              duration: 2,
             })
-            .then((_) => window.location.reload())
+            .then((_) => navigation.navigate('/'))
         : message.error({ content: "Алдаа гарлаа!", key: "post", duration: 2 });
     }
   }, [resultPost]);
@@ -126,7 +128,7 @@ export default function CreatePost() {
                         <Option value="text">Бичиг</Option>
                         <Option value="code">Код</Option>
                         <Option value="img">Зураг</Option>
-                        <Option value="note">Тэмдэглэгээ</Option>
+                        <Option value="title">Гарчиг</Option>
                         <Option value="delete">Устгах</Option>
                       </Select>
                     }

@@ -58,8 +58,8 @@ export default function FullPost({ post }) {
               />
             </Card>
           );
-        else if (item[1].split("$content:")[0] === "note")
-          return <Text code>{item[1].split("$content:")[1]}</Text>;
+        else if (item[1].split("$content:")[0] === "title")
+          return <Title level={2} >{item[1].split("$content:")[1]}</Title>;
       })}
     </div>
   );
