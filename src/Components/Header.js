@@ -1,6 +1,7 @@
 import React , {useContext} from "react";
 import { PageHeader, Button, Tag, Layout, Menu, Avatar, Switch } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
+import {Link} from 'react-navi'
 import {ThemeContext} from '../contexts';
 const { Header } = Layout;
 const { SubMenu } = Menu;
@@ -39,8 +40,8 @@ export default function HeaderPage({ paddingRight}) {
           key="2"
           icon={<SettingOutlined style={{ fontSize: 16 }} />}
         >
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
+          <Menu.Item key="5"><Link href='/create-post'>Мэдээлэл үүсгэх</Link></Menu.Item>
+          <Menu.Item key="6"><Link href='/tags'>Таг үүсгэх</Link></Menu.Item>
           <SubMenu key="sub3" title="Submenu">
             <Menu.Item key="7">Option 7</Menu.Item>
             <Menu.Item key="8">Option 8</Menu.Item>
