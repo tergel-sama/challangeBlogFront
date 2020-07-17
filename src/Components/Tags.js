@@ -42,12 +42,12 @@ export default function Tags({ tags }) {
   }, [resultTag]);
   return (
     <React.Fragment>
-         <p>Таг дээр дарж устгана.</p>
-        <p>Тагнийхаа нэрний эхний үсгийг томоор бичвэл зүгээр бөлгөө.</p>
+         <p>Холбоос дээр дарж устгана.</p>
+        <p>Холбоосын нэрний эхний үсгийг томоор бичвэл зүгээр бөлгөө.</p>
       {tags.data.map((item, index) => (
         <Popconfirm
           key={index}
-          title={`Энэ ${item.name} тагийг устгахдаа итгэлтэй байна уу?`}
+          title={`Энэ ${item.name} холбоосийг устгахдаа итгэлтэй байна уу?`}
           onConfirm={() => {
             message.loading({ content: "Устгаж байна...", key: "Deltag" });
             deleteTag(item._id);

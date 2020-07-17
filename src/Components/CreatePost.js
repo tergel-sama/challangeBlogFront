@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button, message, Row, Col, Select } from "antd";
+import { Form, Input, Button, message, Row, Col, Select, Tag } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useResource } from "react-request-hook";
-import {useNavigation} from 'react-navi'
-const onFinish = (values) => {
-  console.log("Received values of form:", values);
-};
+import { useNavigation } from "react-navi";
+const { CheckableTag } = Tag;
 const { TextArea } = Input;
 const { Option } = Select;
-export default function CreatePost() {
-  const navigation = useNavigation()
+export default function CreatePost({ requestTags }) {
+  const navigation = useNavigation();
   const [resultPost, createPost] = useResource(
-    (title, content, author, img) => {
+    (title, content, author, img, tags) => {
       console.log("content", content);
       return {
         url: "/post",
         method: "post",
-        data: { title, img, author, content },
+        data: { title, img, author, content, tags },
       };
     }
   );
+
+  const [selectedTags, setSelectedTags] = useState([]);
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [content, setContent] = useState({});
@@ -32,10 +32,16 @@ export default function CreatePost() {
               key: "post",
               duration: 2,
             })
-            .then((_) => navigation.navigate('/'))
+            .then((_) => navigation.navigate("/"))
         : message.error({ content: "Алдаа гарлаа!", key: "post", duration: 2 });
     }
   }, [resultPost]);
+  function handleTags(tag, checked) {
+    const nextSelectedTags = checked
+      ? [...selectedTags, tag]
+      : selectedTags.filter((t) => t !== tag);
+    setSelectedTags(nextSelectedTags);
+  }
   function onChange(e, type) {
     let data = content;
     data[e.target.name] = type + "$content:" + e.target.value;
@@ -57,10 +63,13 @@ export default function CreatePost() {
       name="dynamic_form_item"
       onFinish={() => {
         message.loading({ content: "Хадгалж байна...", key: "post" });
-        createPost(title, content, "mr.rob0t", imgUrl);
+        createPost(title, content, "mr.rob0t", imgUrl, selectedTags);
       }}
     >
-      <p>Бичиг дээр код бичих бол {'<code>let a;</code>'} гэж бичээрэй. Мөн html tag бичих боломжтой.</p>
+      <p>
+        Бичиг дээр код бичих бол {"<code>let a;</code>"} гэж бичээрэй. Мөн html
+        tag бичих боломжтой.
+      </p>
       <Form.Item label="Гарчиг">
         <Input
           value={title}
@@ -150,6 +159,7 @@ export default function CreatePost() {
                   onClick={() => {
                     add();
                   }}
+                  style={{ width: "100%" }}
                 >
                   <PlusOutlined /> Нэмэх
                 </Button>
@@ -158,7 +168,17 @@ export default function CreatePost() {
           );
         }}
       </Form.List>
-
+      <Form.Item label="Холбоосоо сонгоорой">
+        {requestTags.data.map((item) => (
+          <CheckableTag
+            key={item.name}
+            checked={selectedTags.indexOf(item.name) > -1}
+            onChange={(checked) => handleTags(item.name, checked)}
+          >
+            {item.name}
+          </CheckableTag>
+        ))}
+      </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Хадгалах

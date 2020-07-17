@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
@@ -11,12 +11,25 @@ import Header from "./Header";
 import { Link, useLoadingRoute } from "react-navi";
 import LoadingBar from "react-top-loading-bar";
 import { ContentLayout } from "../contexts";
+import { useResource } from "react-request-hook";
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 export default function CompLayout({ children }) {
   const loadingRoute = useLoadingRoute();
+  const [requestTags, getRequestTags] = useResource(() => ({
+    url: "/tag",
+    method: "get",
+  }));
   const [contentLayout, setContentLayout] = useState(200);
   const [bar, setBar] = useState();
+  const [tags, setTags] = useState([]);
+  useEffect(() => {
+    getRequestTags();
+  }, []);
+  useEffect(() => {
+    setTags(requestTags.data);
+  }, [requestTags.data]);
+
   console.log("status", !!loadingRoute, bar);
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -53,13 +66,12 @@ export default function CompLayout({ children }) {
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link href={"/"}>Мэдээлэлүүд</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            <Link href={"/create-post"}>post ceate</Link>
-          </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-            <Menu.Item key="3">Tom</Menu.Item>
-            <Menu.Item key="4">Bill</Menu.Item>
-            <Menu.Item key="5">Alex</Menu.Item>
+          <SubMenu key="sub1" icon={<UserOutlined />} title="Холбоосууд">
+            {tags?.map((item, index) => (
+              <Menu.Item key={"tags" + index}>
+                <Link href={`/post-tag/${item.name}`}>{item.name}</Link>
+              </Menu.Item>
+            ))}
           </SubMenu>
           <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
             <Menu.Item key="6">Team 1</Menu.Item>

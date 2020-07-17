@@ -30,7 +30,7 @@ export default function FullPost({ post }) {
           src={post.data.img}
         />
       </Card>
-
+          <br />
       {arrContent.map((item) => {
         if (item[1].split("$content:")[0] === "text")
           return (

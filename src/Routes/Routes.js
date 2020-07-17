@@ -13,13 +13,24 @@ export default function Routes() {
       getData: () => Axios.get("/api/post"),
       view: <PostList />,
     }),
+    "/post-tag/:name": route({
+      async getView(request) {
+        let posts = await Axios.get(`/api/post/tag-of/${request.params.name}`);
+        return <PostList posts={posts} />;
+      },
+    }),
     "/post/:id": route({
       async getView(request) {
         let post = await Axios.get(`/api/post/${request.params.id}`);
         return <FullPost post={post} />;
       },
     }),
-    "/create-post": route({ view: <CreatePost /> }),
+    "/create-post": route({
+      async getView(request){
+        let tags = await Axios.get('/api/tag');
+        return <CreatePost requestTags={tags} />
+      }
+    }),
     "/tags": route({
       async getView(request) {
         let tags = await Axios.get("/api/tag");
