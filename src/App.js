@@ -1,12 +1,31 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { Card } from "antd";
 import Layouts from "./Components/Layout";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import Routes from "./Routes/Routes";
-import { ThemeContext } from "./contexts";
+import { ThemeContext, UserContext } from "./contexts";
+import { CookiesProvider, useCookies } from "react-cookie";
+import { useResource } from "react-request-hook";
 function App() {
   const [isDark, setIsDark] = useState(true);
-
+  const [user, setUser] = useState({});
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [resultUser, getUser] = useResource(() => ({
+    url: "/user",
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies.token,
+    },
+  }));
+  useEffect(() => {
+    if (!user.userData && cookies.token) getUser();
+  }, []);
+  useEffect(() => {
+    console.log("data", resultUser);
+    resultUser.data && setUser(resultUser.data.userData);
+  }, [resultUser]);
   const themes = {
     light: `${process.env.PUBLIC_URL}/light-theme.css`,
     dark: `${process.env.PUBLIC_URL}/dark-theme.css`,
@@ -16,17 +35,20 @@ function App() {
   // });
 
   return (
-    <ThemeSwitcherProvider
-      defaultTheme={isDark ? "dark" : "light"}
-      themeMap={themes}
-    >
-      <ThemeContext.Provider value={{ isDark, setIsDark }}>
-        {/* <Layouts /> */}
-        <Suspense fallback={null}>
-          <Routes />
-        </Suspense>
-      </ThemeContext.Provider>
-    </ThemeSwitcherProvider>
+    <CookiesProvider>
+      <ThemeSwitcherProvider
+        defaultTheme={isDark ? "dark" : "light"}
+        themeMap={themes}
+      >
+        <ThemeContext.Provider value={{ isDark, setIsDark }}>
+          <UserContext.Provider value={{ user, setUser }}>
+            <Suspense fallback={null}>
+              <Routes />
+            </Suspense>
+          </UserContext.Provider>
+        </ThemeContext.Provider>
+      </ThemeSwitcherProvider>
+    </CookiesProvider>
   );
 }
 

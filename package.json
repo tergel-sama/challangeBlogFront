@@ -13,6 +13,7 @@
     "http-proxy-middleware": "^1.0.5",
     "navi": "^0.14.0",
     "react": "^16.13.1",
+    "react-cookie": "^4.0.3",
     "react-css-theme-switcher": "^0.1.5",
     "react-dom": "^16.13.1",
     "react-navi": "^0.14.4",

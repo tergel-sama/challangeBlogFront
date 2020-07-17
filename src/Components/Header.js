@@ -1,12 +1,22 @@
-import React , {useContext} from "react";
+import React, { useContext, useState } from "react";
 import { PageHeader, Button, Tag, Layout, Menu, Avatar, Switch } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
-import {Link} from 'react-navi'
-import {ThemeContext} from '../contexts';
+import { Link } from "react-navi";
+import Login from "../Components/Login";
+import { useCookies } from "react-cookie";
+import { ThemeContext, UserContext } from "../contexts";
 const { Header } = Layout;
 const { SubMenu } = Menu;
-export default function HeaderPage({ paddingRight}) {
-  const {isDark,setIsDark} = useContext(ThemeContext);
+export default function HeaderPage({ paddingRight }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [visible, setVisible] = useState(false);
+  const { isDark, setIsDark } = useContext(ThemeContext);
+  const { user, setUser } = useContext(UserContext);
+  function handleLogout() {
+    setUser({});
+    removeCookie("token");
+    window.location.href = "/";
+  }
   return (
     <Header
       style={{
@@ -16,6 +26,7 @@ export default function HeaderPage({ paddingRight}) {
         paddingRight: paddingRight + 50,
       }}
     >
+      <Login visible={visible} setVisible={setVisible} />
       <Menu theme="dark" mode="horizontal">
         <Menu.Item key="1">
           <Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" /> Mr. Rob0t
@@ -40,8 +51,26 @@ export default function HeaderPage({ paddingRight}) {
           key="2"
           icon={<SettingOutlined style={{ fontSize: 16 }} />}
         >
-          <Menu.Item key="5"><Link href='/create-post'>Мэдээлэл үүсгэх</Link></Menu.Item>
-          <Menu.Item key="6"><Link href='/tags'>Таг үүсгэх</Link></Menu.Item>
+          {user.userId ? (
+            <Menu.Item onClick={() => handleLogout()} key="10">
+              Гарах
+            </Menu.Item>
+          ) : (
+            <Menu.Item onClick={() => setVisible(true)} key="9">
+              Нэвтрэх
+            </Menu.Item>
+          )}
+          {user.userId ? (
+            <Menu.Item key="5">
+              <Link href="/create-post">Мэдээлэл үүсгэх</Link>
+            </Menu.Item>
+          ) : null}
+          {user.userId ? (
+            <Menu.Item key="6">
+              <Link href="/tags">Таг үүсгэх</Link>
+            </Menu.Item>
+          ) : null}
+
           <SubMenu key="sub3" title="Submenu">
             <Menu.Item key="7">Option 7</Menu.Item>
             <Menu.Item key="8">Option 8</Menu.Item>

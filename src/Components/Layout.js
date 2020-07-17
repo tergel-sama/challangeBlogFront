@@ -62,7 +62,7 @@ export default function CompLayout({ children }) {
             margin: "16px",
           }}
         />
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+        <Menu theme="dark"  mode="inline">
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link href={"/"}>Мэдээлэлүүд</Link>
           </Menu.Item>

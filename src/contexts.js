@@ -7,3 +7,7 @@ export const ContentLayout = React.createContext({
     contentLayout:200,
     setContentLayout:()=>{}
 })
+export const UserContext = React.createContext({
+    user:{},
+    setUser:()=>{}
+})
