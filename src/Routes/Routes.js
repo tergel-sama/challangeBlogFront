@@ -6,12 +6,35 @@ import Tags from "../Components/Tags";
 import CreatePost from "../Components/CreatePost";
 import Layout from "../Components/Layout";
 import FullPost from "../Components/FullPost";
+import Profile from "../Components/Profile";
+import AllContentCreaters from "../Components/AllContentCreaters";
+import { useCookies } from "react-cookie";
 import Axios from "axios";
 export default function Routes() {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const routes = mount({
     "/": route({
       getData: () => Axios.get("/api/post"),
       view: <PostList />,
+    }),
+
+    "/all-content-creators": route({
+      async getView(request) {
+        let creators = await Axios.get(`/api/user/all/desc`);
+        return <AllContentCreaters creators={creators} />;
+      },
+    }),
+    "/profile/:id": route({
+      async getView(request) {
+        let profile = await Axios.get(`/api/user/${request.params.id}`, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies?.token,
+          },
+        });
+        return <Profile profile={profile} />;
+      },
     }),
     "/post-tag/:name": route({
       async getView(request) {
@@ -26,10 +49,10 @@ export default function Routes() {
       },
     }),
     "/create-post": route({
-      async getView(request){
-        let tags = await Axios.get('/api/tag');
-        return <CreatePost requestTags={tags} />
-      }
+      async getView(request) {
+        let tags = await Axios.get("/api/tag");
+        return <CreatePost requestTags={tags} />;
+      },
     }),
     "/tags": route({
       async getView(request) {

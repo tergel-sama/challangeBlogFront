@@ -1,5 +1,5 @@
 import React, { useState, Suspense, useEffect } from "react";
-import { Card } from "antd";
+import { message } from "antd";
 import Layouts from "./Components/Layout";
 import { ThemeSwitcherProvider } from "react-css-theme-switcher";
 import Routes from "./Routes/Routes";
@@ -10,15 +10,21 @@ function App() {
   const [isDark, setIsDark] = useState(true);
   const [user, setUser] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [resultUser, getUser] = useResource(() => ({
-    url: "/user",
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + cookies.token,
-    },
-  }));
+  const [resultUser, getUser] = useResource(() => {
+    if (!cookies.token) {
+      message.error("Та нэвтэрч орнуу");
+      window.location.href = "/";
+    }
+    return {
+      url: "/user",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookies.token,
+      },
+    };
+  });
   useEffect(() => {
     if (!user.userData && cookies.token) getUser();
   }, []);

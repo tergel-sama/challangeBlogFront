@@ -52,14 +52,10 @@ export default function HeaderPage({ paddingRight }) {
           icon={<SettingOutlined style={{ fontSize: 16 }} />}
         >
           {user.userId ? (
-            <Menu.Item onClick={() => handleLogout()} key="10">
-              Гарах
+            <Menu.Item key={11}>
+              <Link href={`/profile/${user.userId}`}>Хувийн мэдээлэл</Link>{" "}
             </Menu.Item>
-          ) : (
-            <Menu.Item onClick={() => setVisible(true)} key="9">
-              Нэвтрэх
-            </Menu.Item>
-          )}
+          ) : null}
           {user.userId ? (
             <Menu.Item key="5">
               <Link href="/create-post">Мэдээлэл үүсгэх</Link>
@@ -70,7 +66,15 @@ export default function HeaderPage({ paddingRight }) {
               <Link href="/tags">Таг үүсгэх</Link>
             </Menu.Item>
           ) : null}
-
+          {user.userId ? (
+            <Menu.Item onClick={() => handleLogout()} key="10">
+              Гарах
+            </Menu.Item>
+          ) : (
+            <Menu.Item onClick={() => setVisible(true)} key="9">
+              Нэвтрэх
+            </Menu.Item>
+          )}
           <SubMenu key="sub3" title="Submenu">
             <Menu.Item key="7">Option 7</Menu.Item>
             <Menu.Item key="8">Option 8</Menu.Item>
@@ -78,32 +82,5 @@ export default function HeaderPage({ paddingRight }) {
         </SubMenu>
       </Menu>
     </Header>
-    // <PageHeader
-    //   title="Mr. Rob0t"
-    //   style={{position:'fixed',width:'100%',zIndex:'1'}}
-    //   //   subTitle="admin"
-    // //   tags={[
-    // //     <Tag color="blue">Javascript</Tag>,
-    // //     <Tag color="blue">React</Tag>,
-    // //     <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //     // <Tag color="blue">Javascript</Tag>,
-    // //   ]}
-    //   extra={<SettingOutlined style={{fontSize:'25px'}} />}
-    //   avatar={{
-    //     src: "https://avatars1.githubusercontent.com/u/8186664?s=460&v=4",
-    //   }}
-    // />
   );
 }

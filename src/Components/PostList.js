@@ -6,6 +6,7 @@ import { useCurrentRoute } from "react-navi";
 export default function PostList({ posts }) {
   let route = useCurrentRoute();
   let data = posts ? posts.data : route.data.data;
+  console.log('posts data',data)
   return (
     <Row  gutter={[24, 24]}>
       {data.length > 0 ? (

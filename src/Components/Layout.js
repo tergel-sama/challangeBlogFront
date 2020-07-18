@@ -73,6 +73,9 @@ export default function CompLayout({ children }) {
               </Menu.Item>
             ))}
           </SubMenu>
+          <Menu.Item key='11'>
+              <Link href='/all-content-creators' >Content creators</Link>
+          </Menu.Item>
           <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
             <Menu.Item key="6">Team 1</Menu.Item>
             <Menu.Item key="8">Team 2</Menu.Item>

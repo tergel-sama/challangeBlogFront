@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Form, Input, Button, Checkbox, Modal } from "antd";
+import { Form, Input, Button, Modal, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
 import { useResource } from "react-request-hook";
 import { UserContext } from "../contexts";
-import { useNavigation } from "react-navi";
+const messageKey = "login";
 export default function Login({ visible, setVisible }) {
-  const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [resultUser, loginUser] = useResource((email, password) => {
@@ -19,15 +18,37 @@ export default function Login({ visible, setVisible }) {
 
   useEffect(() => {
     console.log("userdata DESU", resultUser);
+    resultUser.error &&
+      message.error({
+        content: "Нууц үг эсвэл имейл буруу байна!",
+        key: messageKey,
+        style: {
+          marginTop: "15vh",
+        },
+      });
     if (resultUser.data) {
+      message.success({
+        content: "Амжилттай нэвтэрлээ!",
+        key: messageKey,
+        style: {
+          marginTop: "15vh",
+        },
+      });
       let d = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
       setCookie("token", resultUser.data.token, { path: "/", expires: d });
-      window.location.href='/'
+      window.location.href = "/";
     }
   }, [resultUser]);
 
   const onFinish = (value) => {
+    message.loading({
+      content: "Уншиж байна.",
+      key: messageKey,
+      style: {
+        marginTop: "15vh",
+      },
+    });
     loginUser(value.email, value.password);
   };
   return (
