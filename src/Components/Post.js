@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Avatar, Tag } from "antd";
 import {
   EditOutlined,
@@ -7,9 +7,15 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { useNavigation } from "react-navi";
+import { useResource } from "react-request-hook";
 const { Meta } = Card;
 
 export default function Post({ imgUrl, title, author, content, id, tags }) {
+  const [resultUser, getUser] = useResource(() => ({
+    url: `/user/post-creator/${author}`,
+    method: "get",
+  }));
+  useEffect(() => getUser(), []);
   const navigation = useNavigation();
   return (
     <Card
@@ -48,7 +54,15 @@ export default function Post({ imgUrl, title, author, content, id, tags }) {
     >
       <Meta
         key="1"
-        avatar={<Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" />}
+        avatar={
+          <Avatar
+            src={
+              resultUser?.data?.img
+                ? resultUser?.data?.img
+                : "https://i.ibb.co/8KkkJzb/mrrobot.jpg"
+            }
+          />
+        }
         title={title}
         description={content}
       />

@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { PageHeader, Button, Tag, Layout, Menu, Avatar, Switch } from "antd";
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-navi";
 import Login from "../Components/Login";
 import { useCookies } from "react-cookie";
 import { ThemeContext, UserContext } from "../contexts";
+import { useResource } from "react-request-hook";
 const { Header } = Layout;
 const { SubMenu } = Menu;
 export default function HeaderPage({ paddingRight }) {
@@ -12,6 +13,19 @@ export default function HeaderPage({ paddingRight }) {
   const [visible, setVisible] = useState(false);
   const { isDark, setIsDark } = useContext(ThemeContext);
   const { user, setUser } = useContext(UserContext);
+  const [resultUser, getUser] = useResource((id) => ({
+    url: `/user/${id}`,
+    method: "get",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies.token,
+    },
+  }));
+  useEffect(() => {
+    console.log('changed',user.userId)
+    user.userId && getUser(user.userId);
+  }, [user.userId]);
   function handleLogout() {
     setUser({});
     removeCookie("token");
@@ -29,7 +43,16 @@ export default function HeaderPage({ paddingRight }) {
       <Login visible={visible} setVisible={setVisible} />
       <Menu theme="dark" mode="horizontal">
         <Menu.Item key="1">
-          <Avatar src="https://i.ibb.co/8KkkJzb/mrrobot.jpg" /> Mr. Rob0t
+          <Avatar
+            src={
+              resultUser?.data?.img
+                ? resultUser?.data?.img
+                : "https://i.ibb.co/8KkkJzb/mrrobot.jpg"
+            }
+          />
+          {resultUser?.data?.username
+            ? " "+resultUser?.data?.username
+            : " Mr. Rob0t"}
         </Menu.Item>
         <Menu.Item disabled key="4">
           <Switch

@@ -74,7 +74,7 @@ export default function FullPost({ post }) {
         />
       </Card>
       <br />
-      {arrContent.map((item, index) => {
+      {arrContent.sort().map((item, index) => {
         if (item[1].split("$content:")[0] === "text")
           return (
             <Paragraph

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import { Form, Input, Button, message, Row, Col, Select, Tag } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useResource } from "react-request-hook";
 import { useNavigation } from "react-navi";
 import { useCookies } from "react-cookie";
+import {UserContext} from '../contexts';
 const { CheckableTag } = Tag;
 const { TextArea } = Input;
 const { Option } = Select;
 export default function CreatePost({ requestTags }) {
+  const {user,setUser} = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigation = useNavigation();
   const [resultPost, createPost] = useResource(
@@ -21,7 +23,7 @@ export default function CreatePost({ requestTags }) {
           "Content-Type": "application/json",
           Authorization: "Bearer " + cookies.token,
         },
-        data: { title, img, author, content, tags },
+        data: { title, img, author:user.userId, content, tags },
       };
     }
   );

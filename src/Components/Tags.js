@@ -2,17 +2,30 @@ import React, { useState, useEffect } from "react";
 import { Tag, Popconfirm, Input, Button, message } from "antd";
 import { useResource } from "react-request-hook";
 import { useNavigation } from "react-navi";
+import { useCookies } from "react-cookie";
 export default function Tags({ tags }) {
+
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigation = useNavigation();
   const [tag, setTag] = useState("");
   const [resultTag, createTag] = useResource((name) => ({
     url: "/tag",
     method: "post",
     data: { name },
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies.token,
+    },
   }));
   const [resultDeletedTag, deleteTag] = useResource((id) => ({
     url: `/tag/${id}`,
     method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies.token,
+    },
   }));
   useEffect(() => {
     if (resultDeletedTag && resultDeletedTag.data) {
