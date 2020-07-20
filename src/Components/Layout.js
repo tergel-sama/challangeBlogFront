@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
+  SnippetsOutlined,
   TeamOutlined,
-  UserOutlined,
+  ProfileOutlined
 } from "@ant-design/icons";
 import Header from "./Header";
 import { Link, useLoadingRoute } from "react-navi";
@@ -63,24 +61,20 @@ export default function CompLayout({ children }) {
           }}
         />
         <Menu theme="dark"  mode="inline">
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <Link href={"/"}>Мэдээлэлүүд</Link>
+          <Menu.Item key="1" icon={<SnippetsOutlined />}>
+            <Link href={"/"}>Нийтлэлүүд</Link>
           </Menu.Item>
-          <SubMenu key="sub1" icon={<UserOutlined />} title="Холбоосууд">
+          <SubMenu key="sub1" icon={<ProfileOutlined />} title="Холбоосууд">
             {tags?.map((item, index) => (
               <Menu.Item key={"tags" + index}>
                 <Link href={`/post-tag/${item.name}`}>{item.name}</Link>
               </Menu.Item>
             ))}
           </SubMenu>
-          <Menu.Item key='11'>
-              <Link href='/all-content-creators' >Content creators</Link>
+          <Menu.Item icon={<TeamOutlined />} key='11'>
+              <Link href='/all-content-creators' >Админууд</Link>
           </Menu.Item>
-          <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-            <Menu.Item key="6">Team 1</Menu.Item>
-            <Menu.Item key="8">Team 2</Menu.Item>
-          </SubMenu>
-          <Menu.Item key="9" icon={<FileOutlined />} />
+         
         </Menu>
       </Sider>
       <Layout style={{ marginLeft: contentLayout }}>

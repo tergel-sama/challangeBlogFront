@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Form, Input, Button, Modal, message } from "antd";
-import { UserOutlined, LockOutlined,MailOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined , MailOutlined } from "@ant-design/icons";
 import { useCookies } from "react-cookie";
 import { useResource } from "react-request-hook";
-import { UserContext } from "../contexts";
 const messageKey = "login";
-export default function Login({ visible, setVisible }) {
-  const { user, setUser } = useContext(UserContext);
+export default function SignUp({ visible, setVisible }) {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [loginUserData, setLoginUser] = useState({});
   const [resultUser, loginUser] = useResource((email, password) => {
     return {
       url: "/user/login",
@@ -15,7 +14,21 @@ export default function Login({ visible, setVisible }) {
       data: { email, password },
     };
   });
-
+  const [resultSignUpUser, SignUp] = useResource(
+    (username, email, password) => {
+      return {
+        url: "/user/signup",
+        method: "POST",
+        data: { username, email, password },
+      };
+    }
+  );
+  useEffect(() => {
+    resultSignUpUser.error && message.error("Имейл эсвэр нэр давхардсан байна");
+    if (resultSignUpUser.data) {
+      loginUser(loginUserData.email, loginUserData.password);
+    }
+  }, [resultSignUpUser]);
   useEffect(() => {
     console.log("userdata DESU", resultUser);
     resultUser.error &&
@@ -49,11 +62,12 @@ export default function Login({ visible, setVisible }) {
         marginTop: "15vh",
       },
     });
-    loginUser(value.email, value.password);
+    SignUp(value.username, value.email, value.password);
+    setLoginUser(value);
   };
   return (
     <Modal
-      title="Нэвтрэх"
+      title="Бүртгүүлэх"
       onCancel={() => setVisible(false)}
       visible={visible}
       footer={false}
@@ -63,6 +77,12 @@ export default function Login({ visible, setVisible }) {
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
+        <Form.Item
+          name="username"
+          rules={[{ required: true, message: "Нэрээ оруулаарай!" }]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Нэр" />
+        </Form.Item>
         <Form.Item
           name="email"
           rules={[{ required: true, message: "Имейлээ оруулаарай!" }]}

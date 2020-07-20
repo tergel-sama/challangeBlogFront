@@ -7,6 +7,7 @@ import { Parser } from "html-to-react";
 import { useNavigation } from "react-navi";
 import { useResource } from "react-request-hook";
 import { useCookies } from "react-cookie";
+import PostComments from "./PostComments";
 const { Title, Paragraph, Text } = Typography;
 const key = "deletePost";
 export default function FullPost({ post }) {
@@ -48,7 +49,7 @@ export default function FullPost({ post }) {
           <Title>{post.data.title}</Title>
         </Col>
         <Col style={{ textAlign: "center" }} span={4}>
-          {user.userId ? (
+          {user.userType === 1 ? (
             <Button
               danger
               type="primary"
@@ -115,6 +116,7 @@ export default function FullPost({ post }) {
             </Title>
           );
       })}
+      <PostComments postId={post.data._id} />
     </div>
   );
 }

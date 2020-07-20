@@ -7,9 +7,10 @@ import { ThemeContext, UserContext } from "./contexts";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { useResource } from "react-request-hook";
 function App() {
-  const [isDark, setIsDark] = useState(true);
+
   const [user, setUser] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [isDark, setIsDark] = useState(true);
   const [resultUser, getUser] = useResource(() => {
     if (!cookies.token) {
       message.error("Та нэвтэрч орнуу");

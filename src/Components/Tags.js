@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tag, Popconfirm, Input, Button, message } from "antd";
 import { useResource } from "react-request-hook";
 import { useNavigation } from "react-navi";
 import { useCookies } from "react-cookie";
+import { UserContext } from "../contexts";
 export default function Tags({ tags }) {
-
+  const { user, setUser } = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigation = useNavigation();
   const [tag, setTag] = useState("");
@@ -12,11 +13,14 @@ export default function Tags({ tags }) {
     url: "/tag",
     method: "post",
     data: { name },
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + cookies.token,
-    },
+    headers:
+      user.userType === 1
+        ? {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + cookies.token,
+          }
+        : {},
   }));
   const [resultDeletedTag, deleteTag] = useResource((id) => ({
     url: `/tag/${id}`,
@@ -29,7 +33,7 @@ export default function Tags({ tags }) {
   }));
   useEffect(() => {
     if (resultDeletedTag && resultDeletedTag.data) {
-        resultDeletedTag.data.status === "success"
+      resultDeletedTag.data.status === "success"
         ? message
             .success({
               content: "Амжилттай устгалаа!",
@@ -55,8 +59,8 @@ export default function Tags({ tags }) {
   }, [resultTag]);
   return (
     <React.Fragment>
-         <p>Холбоос дээр дарж устгана.</p>
-        <p>Холбоосын нэрний эхний үсгийг томоор бичвэл зүгээр бөлгөө.</p>
+      <p>Холбоос дээр дарж устгана.</p>
+      <p>Холбоосын нэрний эхний үсгийг томоор бичвэл зүгээр бөлгөө.</p>
       {tags.data.map((item, index) => (
         <Popconfirm
           key={index}
@@ -77,10 +81,10 @@ export default function Tags({ tags }) {
         size="small"
         value={tag}
         onChange={(e) => setTag(e.target.value)}
-        style={{width:'30%'}}
+        style={{ width: "30%" }}
       />
       <Button
-      size='small'
+        size="small"
         type="primary"
         onClick={() => {
           message.loading({ content: "Хадгалж байна...", key: "tag" });

@@ -1,29 +1,32 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Input, Button, message, Row, Col, Select, Tag } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useResource } from "react-request-hook";
 import { useNavigation } from "react-navi";
 import { useCookies } from "react-cookie";
-import {UserContext} from '../contexts';
+import { UserContext } from "../contexts";
 const { CheckableTag } = Tag;
 const { TextArea } = Input;
 const { Option } = Select;
 export default function CreatePost({ requestTags }) {
-  const {user,setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const navigation = useNavigation();
   const [resultPost, createPost] = useResource(
     (title, content, author, img, tags) => {
-      console.log("content", content);
+      console.log("content", user.userType);
       return {
         url: "/post",
         method: "post",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + cookies.token,
-        },
-        data: { title, img, author:user.userId, content, tags },
+        headers:
+          user.userType === 1
+            ? {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + cookies.token,
+              }
+            : {},
+        data: { title, img, author: user.userId, content, tags },
       };
     }
   );
@@ -34,16 +37,17 @@ export default function CreatePost({ requestTags }) {
   const [content, setContent] = useState({});
   useEffect(() => {
     if (resultPost && resultPost.data) {
-      resultPost.data.status === "success"
-        ? message
-            .success({
-              content: "Амжилттай хадгаллаа!",
-              key: "post",
-              duration: 2,
-            })
-            .then((_) => navigation.navigate("/"))
-        : message.error({ content: "Алдаа гарлаа!", key: "post", duration: 2 });
+      resultPost.data.status === "success" &&
+        message
+          .success({
+            content: "Амжилттай хадгаллаа!",
+            key: "post",
+            duration: 2,
+          })
+          .then((_) => navigation.navigate("/"));
     }
+    resultPost.error &&
+      message.error({ content: "Алдаа гарлаа!", key: "post", duration: 2 });
   }, [resultPost]);
   function handleTags(tag, checked) {
     const nextSelectedTags = checked

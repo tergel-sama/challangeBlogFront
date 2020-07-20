@@ -1,8 +1,17 @@
 import React, { useContext, useState, useEffect } from "react";
 import { PageHeader, Button, Tag, Layout, Menu, Avatar, Switch } from "antd";
-import { SettingOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  SettingOutlined,
+  UserOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  FileAddOutlined,
+  TagOutlined,
+  UserAddOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-navi";
 import Login from "../Components/Login";
+import SignUp from "../Components/SignUp";
 import { useCookies } from "react-cookie";
 import { ThemeContext, UserContext } from "../contexts";
 import { useResource } from "react-request-hook";
@@ -11,6 +20,7 @@ const { SubMenu } = Menu;
 export default function HeaderPage({ paddingRight }) {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [visible, setVisible] = useState(false);
+  const [visibleSign, setVisibleSign] = useState(false);
   const { isDark, setIsDark } = useContext(ThemeContext);
   const { user, setUser } = useContext(UserContext);
   const [resultUser, getUser] = useResource((id) => ({
@@ -23,7 +33,7 @@ export default function HeaderPage({ paddingRight }) {
     },
   }));
   useEffect(() => {
-    console.log('changed',user.userId)
+    console.log("changed", user.userId);
     user.userId && getUser(user.userId);
   }, [user.userId]);
   function handleLogout() {
@@ -41,6 +51,7 @@ export default function HeaderPage({ paddingRight }) {
       }}
     >
       <Login visible={visible} setVisible={setVisible} />
+      <SignUp visible={visibleSign} setVisible={setVisibleSign} />
       <Menu theme="dark" mode="horizontal">
         <Menu.Item key="1">
           <Avatar
@@ -51,7 +62,7 @@ export default function HeaderPage({ paddingRight }) {
             }
           />
           {resultUser?.data?.username
-            ? " "+resultUser?.data?.username
+            ? " " + resultUser?.data?.username
             : " Mr. Rob0t"}
         </Menu.Item>
         <Menu.Item disabled key="4">
@@ -75,27 +86,44 @@ export default function HeaderPage({ paddingRight }) {
           icon={<SettingOutlined style={{ fontSize: 16 }} />}
         >
           {user.userId ? (
-            <Menu.Item key={11}>
+            <Menu.Item icon={<UserOutlined />} key={11}>
               <Link href={`/profile/${user.userId}`}>Хувийн мэдээлэл</Link>{" "}
             </Menu.Item>
           ) : null}
           {user.userId ? (
-            <Menu.Item key="5">
-              <Link href="/create-post">Мэдээлэл үүсгэх</Link>
+            <Menu.Item icon={<FileAddOutlined />} key="5">
+              <Link href="/create-post">Нийтлэл оруулах</Link>
             </Menu.Item>
           ) : null}
           {user.userId ? (
-            <Menu.Item key="6">
+            <Menu.Item icon={<TagOutlined />} key="6">
               <Link href="/tags">Таг үүсгэх</Link>
             </Menu.Item>
           ) : null}
           {user.userId ? (
-            <Menu.Item onClick={() => handleLogout()} key="10">
+            <Menu.Item
+              icon={<LogoutOutlined />}
+              onClick={() => handleLogout()}
+              key="10"
+            >
               Гарах
             </Menu.Item>
           ) : (
-            <Menu.Item onClick={() => setVisible(true)} key="9">
+            <Menu.Item
+              icon={<LoginOutlined />}
+              onClick={() => setVisible(true)}
+              key="9"
+            >
               Нэвтрэх
+            </Menu.Item>
+          )}
+          {user.userId ? null : (
+            <Menu.Item
+              icon={<UserAddOutlined />}
+              onClick={() => setVisibleSign(true)}
+              key="12"
+            >
+              Бүртгүүлэх
             </Menu.Item>
           )}
           <SubMenu key="sub3" title="Submenu">
