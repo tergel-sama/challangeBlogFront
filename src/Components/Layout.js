@@ -3,7 +3,7 @@ import { Layout, Menu } from "antd";
 import {
   SnippetsOutlined,
   TeamOutlined,
-  ProfileOutlined
+  ProfileOutlined,
 } from "@ant-design/icons";
 import Header from "./Header";
 import { Link, useLoadingRoute } from "react-navi";
@@ -55,12 +55,25 @@ export default function CompLayout({ children }) {
       >
         <div
           style={{
-            height: "32px",
-            background: "rgba(255, 255, 255, 0.2)",
+            height: "36px",
+            // background: "rgba(255, 255, 255, 0.2)",
             margin: "16px",
+            display: "flex",
+            justifyContent: "center",
           }}
-        />
-        <Menu theme="dark"  mode="inline">
+        >
+          <img
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              display: "block",
+              margin: "auto",
+            }}
+            alt="logo"
+            src={require("../assets/logo.png")}
+          />
+        </div>
+        <Menu theme="dark" mode="inline">
           <Menu.Item key="1" icon={<SnippetsOutlined />}>
             <Link href={"/"}>Нийтлэлүүд</Link>
           </Menu.Item>
@@ -71,10 +84,9 @@ export default function CompLayout({ children }) {
               </Menu.Item>
             ))}
           </SubMenu>
-          <Menu.Item icon={<TeamOutlined />} key='11'>
-              <Link href='/all-content-creators' >Админууд</Link>
+          <Menu.Item icon={<TeamOutlined />} key="11">
+            <Link href="/all-content-creators">Админууд</Link>
           </Menu.Item>
-         
         </Menu>
       </Sider>
       <Layout style={{ marginLeft: contentLayout }}>

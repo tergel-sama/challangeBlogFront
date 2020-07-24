@@ -4,6 +4,7 @@ import { useResource } from "react-request-hook";
 import { useNavigation } from "react-navi";
 import { useCookies } from "react-cookie";
 import { UserContext } from "../contexts";
+const key = "tag";
 export default function Tags({ tags }) {
   const { user, setUser } = useContext(UserContext);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -32,6 +33,7 @@ export default function Tags({ tags }) {
     },
   }));
   useEffect(() => {
+    resultDeletedTag.error && message.error({ content: "Алдаа гарлаа!", key, duration: 2 });
     if (resultDeletedTag && resultDeletedTag.data) {
       resultDeletedTag.data.status === "success"
         ? message
@@ -41,7 +43,7 @@ export default function Tags({ tags }) {
               duration: 2,
             })
             .then((_) => navigation.navigate(navigation.getCurrentValue()))
-        : message.error({ content: "Алдаа гарлаа!", key: "tag", duration: 2 });
+        : message.error({ content: "Алдаа гарлаа!", key, duration: 2 });
     }
   }, [resultDeletedTag]);
   useEffect(() => {
@@ -50,11 +52,11 @@ export default function Tags({ tags }) {
         ? message
             .success({
               content: "Амжилттай хадгаллаа!",
-              key: "tag",
+              key,
               duration: 2,
             })
             .then((_) => navigation.navigate(navigation.getCurrentValue()))
-        : message.error({ content: "Алдаа гарлаа!", key: "tag", duration: 2 });
+        : message.error({ content: "Алдаа гарлаа!", key, duration: 2 });
     }
   }, [resultTag]);
   return (
@@ -87,7 +89,7 @@ export default function Tags({ tags }) {
         size="small"
         type="primary"
         onClick={() => {
-          message.loading({ content: "Хадгалж байна...", key: "tag" });
+          message.loading({ content: "Хадгалж байна...", key });
           createTag(tag);
         }}
       >

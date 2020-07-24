@@ -10,7 +10,7 @@ export default function AllContentCreaters({creators}) {
     dataSource={creators.data}
     footer={
       <div>
-        <b>Mr. Rob0t</b> Content creators
+        <b>Mr. Rob0t</b> Админууд
       </div>
     }
     renderItem={item => (

@@ -97,7 +97,7 @@ export default function HeaderPage({ paddingRight }) {
           ) : null}
           {user.userId ? (
             <Menu.Item icon={<TagOutlined />} key="6">
-              <Link href="/tags">Таг үүсгэх</Link>
+              <Link href="/tags">Холбоос үүсгэх</Link>
             </Menu.Item>
           ) : null}
           {user.userId ? (
@@ -126,10 +126,6 @@ export default function HeaderPage({ paddingRight }) {
               Бүртгүүлэх
             </Menu.Item>
           )}
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="7">Option 7</Menu.Item>
-            <Menu.Item key="8">Option 8</Menu.Item>
-          </SubMenu>
         </SubMenu>
       </Menu>
     </Header>
