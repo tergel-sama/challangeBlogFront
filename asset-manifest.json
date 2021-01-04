@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/challangeBlogFront/static/css/main.498d002a.chunk.css",
+    "main.js": "/challangeBlogFront/static/js/main.35c57670.chunk.js",
+    "main.js.map": "/challangeBlogFront/static/js/main.35c57670.chunk.js.map",
+    "runtime-main.js": "/challangeBlogFront/static/js/runtime-main.247bdcc8.js",
+    "runtime-main.js.map": "/challangeBlogFront/static/js/runtime-main.247bdcc8.js.map",
+    "static/js/2.8f9ebcd6.chunk.js": "/challangeBlogFront/static/js/2.8f9ebcd6.chunk.js",
+    "static/js/2.8f9ebcd6.chunk.js.map": "/challangeBlogFront/static/js/2.8f9ebcd6.chunk.js.map",
+    "index.html": "/challangeBlogFront/index.html",
+    "precache-manifest.dc51c8b784753207999a0b1b6a838f5d.js": "/challangeBlogFront/precache-manifest.dc51c8b784753207999a0b1b6a838f5d.js",
+    "service-worker.js": "/challangeBlogFront/service-worker.js",
+    "static/css/main.498d002a.chunk.css.map": "/challangeBlogFront/static/css/main.498d002a.chunk.css.map",
+    "static/js/2.8f9ebcd6.chunk.js.LICENSE.txt": "/challangeBlogFront/static/js/2.8f9ebcd6.chunk.js.LICENSE.txt",
+    "static/media/logo.png": "/challangeBlogFront/static/media/logo.25efde8f.png",
+    "static/media/yuno.jpg": "/challangeBlogFront/static/media/yuno.109eb569.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.247bdcc8.js",
+    "static/js/2.8f9ebcd6.chunk.js",
+    "static/css/main.498d002a.chunk.css",
+    "static/js/main.35c57670.chunk.js"
+  ]
+}
