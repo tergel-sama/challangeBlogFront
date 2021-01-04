@@ -5,20 +5,25 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { RequestProvider } from "react-request-hook";
 import axios from "axios";
+import register from "navi-scripts/register";
+
 const axiosInstance = axios.create({
-  baseURL: "https://tergelblogback.herokuapp.com/",
+  baseURL: "https://tergelblogback.herokuapp.com",
 });
-ReactDOM.render(
-  // <React.StrictMode>
-  //   </React.StrictMode>
-  <RequestProvider value={axiosInstance}>
-    <App />
-  </RequestProvider>,
+register({
+  exports: {
+    App,
+  },
 
-  document.getElementById("root")
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+  async main() {
+    let hasStaticContent = process.env.NODE_ENV === "production";
+    let renderer = hasStaticContent ? ReactDOM.hydrate : ReactDOM.render;
+    renderer(
+      <RequestProvider value={axiosInstance}>
+        <App />
+      </RequestProvider>,
+      document.getElementById("root")
+    );
+  },
+});
 serviceWorker.unregister();
