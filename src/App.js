@@ -10,7 +10,7 @@ function App() {
 
   const [user, setUser] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [resultUser, getUser] = useResource(() => {
     if (!cookies.token) {
       message.error("Та нэвтэрч орнуу");

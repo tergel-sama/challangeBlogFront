@@ -53,7 +53,7 @@ export default function HeaderPage({ paddingRight }) {
       <Login visible={visible} setVisible={setVisible} />
       <SignUp visible={visibleSign} setVisible={setVisibleSign} />
       <Menu theme="dark" mode="horizontal">
-        <Menu.Item key="1">
+        {/* <Menu.Item key="1">
           <Avatar
             src={
               resultUser?.data?.img
@@ -64,8 +64,8 @@ export default function HeaderPage({ paddingRight }) {
           {resultUser?.data?.username
             ? " " + resultUser?.data?.username
             : " Mr. Rob0t"}
-        </Menu.Item>
-        <Menu.Item disabled key="4">
+        </Menu.Item> */}
+        {/* <Menu.Item disabled key="4">
           <Switch
             key="switch"
             checked={isDark}
@@ -76,7 +76,7 @@ export default function HeaderPage({ paddingRight }) {
             checkedChildren="Dark"
             unCheckedChildren="Light"
           />
-        </Menu.Item>
+        </Menu.Item> */}
         <SubMenu
           style={{
             float: paddingRight !== 0 ? "right" : "unset",
@@ -90,12 +90,27 @@ export default function HeaderPage({ paddingRight }) {
               <Link href={`/profile/${user.userId}`}>Хувийн мэдээлэл</Link>{" "}
             </Menu.Item>
           ) : null}
-          {user.userId ? (
+          {user.userType === 1 ? (
+            <Menu.Item icon={<FileAddOutlined />} key="14">
+              <Link href={`/posts/${user.userId}`}>Өөрийн нийтлэлүүд</Link>
+            </Menu.Item>
+          ) : null}
+          {user.userType === 3 ? (
+            <Menu.Item icon={<FileAddOutlined />} key="15">
+              <Link href="/all-author-post-list">Бүх нийтлэгчүүд</Link>
+            </Menu.Item>
+          ) : null}
+          {user.userType === 3 ? (
             <Menu.Item icon={<FileAddOutlined />} key="5">
+              <Link href="/waiting-post-list">Хүлээгдэж буй нийтлэлүүд</Link>
+            </Menu.Item>
+          ) : null}
+          {user.userType === 1 ? (
+            <Menu.Item icon={<FileAddOutlined />} key="13">
               <Link href="/create-post">Нийтлэл оруулах</Link>
             </Menu.Item>
           ) : null}
-          {user.userId ? (
+          {user.userType === 1 ? (
             <Menu.Item icon={<TagOutlined />} key="6">
               <Link href="/tags">Холбоос үүсгэх</Link>
             </Menu.Item>

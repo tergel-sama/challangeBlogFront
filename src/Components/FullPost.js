@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Row, Col, Typography, Card, Button, message } from "antd";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { LikeOutlined, EyeOutlined } from "@ant-design/icons";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { ContentLayout, UserContext } from "../contexts";
 import { Parser } from "html-to-react";
@@ -14,6 +15,7 @@ const key = "deletePost";
 export default function FullPost({ post }) {
   console.log("fullpost", post.data);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [likes, setLikes] = useState(post.data.likes);
   const [deleteResultPost, deletePost] = useResource((id) => ({
     url: `/post/${id}`,
     method: "DELETE",
@@ -23,13 +25,67 @@ export default function FullPost({ post }) {
       Authorization: "Bearer " + cookies.token,
     },
   }));
-
+  const [viewsResult, views] = useResource((id) => {
+    let tmp = post.data.views;
+    tmp++;
+    return {
+      url: `/post/${id}`,
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookies.token,
+      },
+      data: [{ name: "views", value: tmp }],
+    };
+  });
+  useEffect(() => {
+    views(post.data._id);
+  }, []);
+  const [incLikesResult, incLikes] = useResource((id) => {
+    let tmp = likes;
+    tmp++;
+    return {
+      url: `/post/${id}`,
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + cookies.token,
+      },
+      data: [{ name: "likes", value: tmp }],
+    };
+  });
+  const [approvePostResult, approvePost] = useResource((id) => ({
+    url: `/post/${id}`,
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + cookies.token,
+    },
+    data: [{ name: "approve", value: 1 }],
+  }));
+  useEffect(() => {
+    incLikesResult.error && message.error({ content: "Амжилтгүй боллоо." });
+    if (incLikesResult.data) {
+      message.success({ content: "Таалагдалаа." });
+    }
+  }, [incLikesResult]);
+  useEffect(() => {
+    approvePostResult.error &&
+      message.error({ content: "Амжилтгүй боллоо.", key });
+    if (approvePostResult.data) {
+      message.success({ content: "Амжилттай зөвшөөрлөө.", key });
+      navigation.navigate("/waiting-post-list");
+    }
+  }, [approvePostResult]);
   useEffect(() => {
     deleteResultPost.error &&
       message.error({ content: "Амжилтгүй боллоо.", key });
     if (deleteResultPost.data) {
       message.success({ content: "Амжилттай устгалаа.", key });
-      navigation.navigate("/");
+      navigation.navigate("/waiting-post-list");
     }
   }, [deleteResultPost]);
   const navigation = useNavigation();
@@ -61,7 +117,7 @@ export default function FullPost({ post }) {
             <Title>{post.data.title}</Title>
           </Col>
           <Col style={{ textAlign: "center" }} span={4}>
-            {user.userType === 1 ? (
+            {user.userType === 3 ? (
               <Button
                 danger
                 type="primary"
@@ -71,6 +127,17 @@ export default function FullPost({ post }) {
                 }}
               >
                 Устгах
+              </Button>
+            ) : null}
+            {user.userType === 3 && post.data.approve === 0 ? (
+              <Button
+                type="primary"
+                onClick={() => {
+                  message.loading({ content: "Уншиж байна", key });
+                  approvePost(post.data._id);
+                }}
+              >
+                Зөвшөөрөх
               </Button>
             ) : null}
           </Col>
@@ -128,6 +195,17 @@ export default function FullPost({ post }) {
               </Title>
             );
         })}
+        {likes}{" "}
+        <LikeOutlined
+          onClick={() => {
+            let data = likes;
+
+            setLikes(++data);
+            incLikes(post.data._id);
+          }}
+          style={{ fontSize: "20px" }}
+        />{" "}
+        {post.data.views} <EyeOutlined style={{ fontSize: "20px" }} />
         <PostComments postId={post.data._id} />
       </div>
     </DocumentMeta>

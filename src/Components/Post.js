@@ -70,7 +70,7 @@ export default function Post({ imgUrl, title, author, content, id, tags }) {
       <Meta
         key="2"
         title={tags.map((item, index) => (
-          <Tag key={index} color="blue">
+          <Tag key={index} color='orange' >
             {item}
           </Tag>
         ))}

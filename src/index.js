@@ -6,7 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import { RequestProvider } from "react-request-hook";
 import axios from "axios";
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "https://tergelblogback.herokuapp.com/",
 });
 ReactDOM.render(
   // <React.StrictMode>

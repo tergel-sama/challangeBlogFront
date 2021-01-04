@@ -36,7 +36,7 @@ export default function CompLayout({ children }) {
         ? bar?.continuousStart()
         : bar?.state.progress > 0 && bar?.complete()}
       <Sider
-        breakpoint="lg"
+        breakpoint='lg'
         collapsedWidth="0"
         style={{
           // overflow: 'auto',
@@ -111,7 +111,7 @@ export default function CompLayout({ children }) {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Mr. Rob0t ©2020 Created by Tergel-sama
+          Sakamoto ©2021 Created by Tergel-sama
         </Footer>
       </Layout>
     </Layout>
